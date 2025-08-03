@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestion Pare-feu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Ajouter une règle de pare-feu</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-6">
+          {% for category, message in messages %}
+            <div
+              class="p-3 rounded mb-2
+                {% if category == 'success' %}bg-green-100 text-green-800
+                {% elif category == 'error' %}bg-red-100 text-red-800
+                {% else %}bg-gray-100 text-gray-700{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="space-y-6">
+
+      <div>
+        <label for="dest" class="block mb-1 font-semibold text-gray-700">IP ou Nom de domaine destination</label>
+        <input type="text" name="dest" id="dest" required
+               placeholder="Ex: 8.8.8.8 ou example.com"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label for="direction" class="block mb-1 font-semibold text-gray-700">Direction</label>
+        <select name="direction" id="direction" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="INPUT">INPUT (Entrant)</option>
+          <option value="OUTPUT">OUTPUT (Sortant)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="action" class="block mb-1 font-semibold text-gray-700">Action</label>
+        <select name="action" id="action" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="ACCEPT">ACCEPT (Autoriser)</option>
+          <option value="DROP">DROP (Bloquer)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="protocol" class="block mb-1 font-semibold text-gray-700">Protocole (optionnel)</label>
+        <select name="protocol" id="protocol"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">-- Aucun --</option>
+          <option value="tcp">TCP</option>
+          <option value="udp">UDP</option>
+          <option value="icmp">ICMP</option>
+
+        </select>
+      </div>
+
+      <div>
+        <label for="port" class="block mb-1 font-semibold text-gray-700">Port (optionnel)</label>
+        <input type="number" min="1" max="65535" name="port" id="port"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label for="port_end" class="block mb-1 font-semibold text-gray-700">Port fin (plage, optionnel)</label>
+        <input type="number" min="1" max="65535" name="port_end" id="port_end"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <button type="submit"
+              class="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition focus:outline-none focus:ring-4 focus:ring-blue-300">
+        Ajouter la règle
+      </button>
+    </form>
+  </div>
+
+  <div class="w-full max-w-4xl mt-10 bg-white rounded-lg shadow-lg p-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Règles iptables actuelles</h2>
+    <a href="{{ url_for('rules') }}" class="text-blue-600 hover:underline mb-4 inline-block">Voir les règles</a>
+  </div>
+
+</body>
+</html>

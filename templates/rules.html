@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Règles iptables</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 flex flex-col items-center">
+
+  <div class="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Règles iptables actuelles</h1>
+    <a href="{{ url_for('index') }}" class="text-blue-600 hover:underline mb-6 inline-block">← Retour</a>
+
+    <pre class="whitespace-pre-wrap bg-gray-100 p-4 rounded-md overflow-auto max-h-[70vh] text-sm font-mono text-gray-700">
+{% for line in rules %}
+{{ line }}
+{% endfor %}
+    </pre>
+  </div>
+
+</body>
+</html>
